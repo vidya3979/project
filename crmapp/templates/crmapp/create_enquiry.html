@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% extends 'crmapp/base0.html' %}
+
+{% block body_block %}
+
+<form action="" method="post">
+    {%csrf_token%}
+    {{form.as_p}}
+    <input type="submit" class="btn btn-outline-success" value="Create" id="">
+</form>
+<br>
+
+<table class="table table-dark">
+    <thead>
+    <tr>
+        <th scope="col">Enquiry_id</th>
+        <th scope="col">student Name</th>
+        <th scope="col">phone_no</th>
+        <th scope="col">qualification</th>
+        <th scope="col">course</th>
+        <th scope="col">batch</th>
+        <th scope="col">status</th>
+
+
+
+    </tr>
+    </thead>
+    <tbody>
+        {%for s in students%}
+    <tr>
+        <td>{{s.enquiry_id}}</td>
+        <td>{{s.student_name}}</td>
+        <td>{{s.phone_no}}</td>
+        <td>{{s.qualification}}</td>
+        <td>{{s.course}}</td>
+        <td>{{s.batch}}</td>
+        <td>{{s.stud_status}}</td>
+
+        <td><a href="{%url 'UpEnquiry' s.id%}">Update</a></td>
+        <td><a href="#" class="btn btn-outline-danger">Delete</a> </td>
+            {%if s.stud_status == 1%}
+            <td><a href="#" class="btn btn-primary btn-block">Register</a> </td>
+        {% endif %}
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<nav aria-label="..." style="margin-top: 5%;">
+  <ul class="pagination">
+      {% if page_obj.has_previous %}
+       <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+       </li>
+      {% else %}
+      <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+      </li>
+      {% endif %}
+      {% for i in page_obj.paginator.page_range %}
+      {% if i == page_obj.number %}
+      <li class="page-item active"><a class="page-link">{{i}}</a></li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
+      {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+      <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+      </li>
+      {% endif %}
+  </ul>
+</nav>
+{% endblock %}
